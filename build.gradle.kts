@@ -84,7 +84,7 @@ val buildDataList = listOf(
 )
 
 // val buildVersion = System.getProperty("IDEA_VER") ?: buildDataList.first().ideaSDKShortVersion
-val buildVersion = 241
+val buildVersion = "241"
 
 val buildVersionData = buildDataList.find { it.ideaSDKShortVersion == buildVersion }!!
 
