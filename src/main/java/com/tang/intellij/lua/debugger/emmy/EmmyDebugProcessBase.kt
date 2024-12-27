@@ -65,7 +65,10 @@ abstract class EmmyDebugProcessBase(session: XDebugSession) : LuaDebugProcess(se
             .getBreakpoints(LuaLineBreakpointType::class.java)
         breakpoints.forEach { breakpoint ->
             breakpoint.sourcePosition?.let { position ->
-                registerBreakpoint(position, breakpoint)
+                if ( breakpoint.isEnabled )
+                {
+                    registerBreakpoint(position, breakpoint)
+                }
             }
         }
         // send ready
