@@ -48,10 +48,43 @@ val buildDataList = listOf(
         bunch = "212",
         targetCompatibilityLevel = JavaVersion.VERSION_17,
         jvmTarget = "17"
+    ),
+    BuildData(
+        ideaSDKShortVersion = "241",
+        ideaSDKVersion = "241.14494.17-EAP-SNAPSHOT",
+        sinceBuild = "232",
+        untilBuild = "241.*",
+        bunch = "212",
+        targetCompatibilityLevel = JavaVersion.VERSION_17,
+        jvmTarget = "17"
+    ),
+    BuildData(
+        ideaSDKShortVersion = "223",
+        ideaSDKVersion = "2022.3",
+        sinceBuild = "223",
+        untilBuild = "223.*",
+        bunch = "212",
+        targetCompatibilityLevel = JavaVersion.VERSION_17,
+        jvmTarget = "17"
+    ),
+    BuildData(
+        ideaSDKShortVersion = "222",
+        ideaSDKVersion = "2022.2",
+        sinceBuild = "212",
+        untilBuild = "222.*",
+        bunch = "212"
+    ),
+    BuildData(
+        ideaSDKShortVersion = "211",
+        ideaSDKVersion = "2021.1",
+        sinceBuild = "211",
+        untilBuild = "211.*",
+        bunch = "203"
     )
 )
 
-val buildVersion = System.getProperty("IDEA_VER") ?: buildDataList.first().ideaSDKShortVersion
+// val buildVersion = System.getProperty("IDEA_VER") ?: buildDataList.first().ideaSDKShortVersion
+val buildVersion = 241
 
 val buildVersionData = buildDataList.find { it.ideaSDKShortVersion == buildVersion }!!
 
