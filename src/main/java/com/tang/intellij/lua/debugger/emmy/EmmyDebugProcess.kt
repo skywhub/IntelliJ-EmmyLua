@@ -54,6 +54,7 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
         var hotfixList = configuration.hotfixList
         val lines: List<String> = hotfixList.split(Regex("\r\n|\r|\n"))
         val roots = LuaSourceRootManager.getInstance(session.project).getSourceRoots()
+        println("Try send hotfix files:$hotfixList", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
         for (root in roots) {
             println("Root:$root", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
             for (line in lines) {
@@ -61,7 +62,7 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
                 var file = File(fullPath)
                 if (file.exists()) {
                     println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-                    transporter?.send(HotfixMessage(line, file.readText()))
+                    transporter.send(HotfixMessage(line, file.readText()))
                 }
             }
         }
