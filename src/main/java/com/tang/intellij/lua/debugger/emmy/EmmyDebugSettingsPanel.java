@@ -131,6 +131,8 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
                 x86RadioButton.setSelected(true);
             }
         }
+
+        hotfixEx.getDocument().setText(configuration.hotfixList);
     }
 
     @Override
@@ -147,7 +149,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
             configuration.setWinArch(x64RadioButton.isSelected() ? EmmyWinArch.X64 : EmmyWinArch.X86);
         }
 
-        configuration.setHotfixList(hotfixEx.getDocument().getText());
+        configuration.hotfixList = hotfixEx.getDocument().getText();
     }
 
     protected void setType(EmmyDebugTransportType type) {
