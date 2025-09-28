@@ -55,7 +55,7 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
         val lines: List<String> = hotfixList.split(Regex("\r\n|\r|\n"))
         val roots = LuaSourceRootManager.getInstance(session.project).getSourceRoots()
         for (root in roots) {
-            println("Root Path", root)
+            println("Root:$root", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
             for (line in lines) {
                 var fullPath = root + "/" + line
                 var file = File(fullPath)
