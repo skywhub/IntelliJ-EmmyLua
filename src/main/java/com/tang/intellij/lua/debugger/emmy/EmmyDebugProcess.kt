@@ -62,7 +62,7 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
                 var file = File(fullPath)
                 if (file.exists()) {
                     println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-                    transporter.send(HotfixMessage(line, file.readText()))
+                    transporter?.send(HotfixMessage(line, file.readText()))
                 }
             }
         }
