@@ -58,12 +58,14 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
         println("Try send hotfix files:$hotfixList", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
         println("Project base path:$basePath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
         for (line in lines) {
-                var fullPath = root.url + "/" + line
+                var fullPath = basePath + "/" + line
                 var file = File(fullPath)
                 if (file.exists()) {
                     println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-                    transporter?.send(HotfixMessage(line, file.readText()))
-            }
+                        transporter?.send(HotfixMessage(line, file.readText()))
+                } else {
+                    println("Cannot found file:$fullPath")
+                }
         }
     }
 }
