@@ -57,7 +57,7 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
         for (root in roots) {
             println("Root:$root", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
             for (line in lines) {
-                var fullPath = root + "/" + line
+                var fullPath = root.url + "/" + line
                 var file = File(fullPath)
                 if (file.exists()) {
                     println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
