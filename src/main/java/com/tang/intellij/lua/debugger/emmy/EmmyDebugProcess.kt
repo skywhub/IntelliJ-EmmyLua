@@ -18,6 +18,10 @@ package com.tang.intellij.lua.debugger.emmy
 import com.tang.intellij.lua.debugger.*
 import com.tang.intellij.lua.psi.LuaFileManager
 import com.tang.intellij.lua.psi.LuaFileUtil
+import com.tang.intellij.lua.project.LuaSourceRootManager
+import java.io.File
+import com.tang.intellij.lua.debugger.LogConsoleType
+import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.xdebugger.XDebugSession
 
 interface IEvalResultHandler {
@@ -54,8 +58,7 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
             println("Root Path", root)
             for (line in lines) {
                 var fullPath = root + "/" + line
-                var file = File(path)
-                
+                var file = File(fullPath)
                 if (file.exists()) {
                     println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
                     transporter?.send(HotfixMessage(line, file.readText()))
