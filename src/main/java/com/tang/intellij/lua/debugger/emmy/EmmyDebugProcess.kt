@@ -15,7 +15,9 @@
  */
 
 package com.tang.intellij.lua.debugger.emmy
-
+import com.tang.intellij.lua.debugger.*
+import com.tang.intellij.lua.psi.LuaFileManager
+import com.tang.intellij.lua.psi.LuaFileUtil
 import com.intellij.xdebugger.XDebugSession
 
 interface IEvalResultHandler {
@@ -40,6 +42,25 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
         } catch (e: Exception) {
             this.error(e.localizedMessage)
             this.onDisconnect()
+        }
+    }
+
+    override fun sendHotfix()
+    {
+        var hotfixList = configuration.hotfixList
+        val lines: List<String> = hotfixList.split(Regex("\r\n|\r|\n"))
+        val roots = LuaSourceRootManager.getInstance(session.project).getSourceRoots()
+        for (root in roots) {
+            println("Root Path", root)
+            for (line in lines) {
+                var fullPath = root + "/" + line
+                var file = File(path)
+                
+                if (file.exists()) {
+                    println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+                    transporter?.send(HotfixMessage(line, file.readText()))
+                }
+            }
         }
     }
 }

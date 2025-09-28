@@ -90,6 +90,7 @@ class EmmyDebugConfiguration(project: Project, factory: EmmyDebuggerConfiguratio
     var port = 9966
     var winArch = EmmyWinArch.X64
     var pipeName = "emmy"
+    var hotfixList = ""
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> {
         val group = SettingsEditorGroup<EmmyDebugConfiguration>()
@@ -133,5 +134,10 @@ class EmmyDebugConfiguration(project: Project, factory: EmmyDebuggerConfiguratio
             val i = value.toInt()
             winArch = EmmyWinArch.values().find { it.ordinal == i } ?: EmmyWinArch.X64
         }
+    }
+
+    fun setHotfixList(content: String)
+    {
+        hotfixList = content
     }
 }

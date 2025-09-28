@@ -51,6 +51,8 @@ abstract class EmmyDebugProcessBase(session: XDebugSession) : LuaDebugProcess(se
 
     protected abstract fun setupTransporter()
 
+    protected abstract fun sendHotfix()
+
     private fun sendInitReq() {
         // send init
         val path = LuaFileUtil.getPluginVirtualFile("debugger/emmy/emmyHelper.lua")
@@ -59,6 +61,10 @@ abstract class EmmyDebugProcessBase(session: XDebugSession) : LuaDebugProcess(se
             val extList = LuaFileManager.extensions
             transporter?.send(InitMessage(code, extList))
         }
+        
+        // send hotfix
+        sendHotfix()
+
         // send bps
         val breakpoints = XDebuggerManager.getInstance(session.project)
             .breakpointManager

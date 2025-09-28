@@ -49,6 +49,8 @@ enum class MessageCMD {
     StartHookRsp,
 
     LogNotify,
+
+    HotfixLuaFileReq,
 }
 
 interface IMessage {
@@ -73,6 +75,8 @@ open class Message(cmdName: MessageCMD) : IMessage {
 }
 
 class InitMessage(val emmyHelper: String, val ext: Array<String>) : Message(MessageCMD.InitReq)
+
+class HotfixMessage(val chunkPath: String, val fileContent: String) : Message(MessageCMD.HotfixLuaFileReq)
 
 enum class DebugAction {
     Break,

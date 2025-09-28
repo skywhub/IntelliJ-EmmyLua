@@ -47,6 +47,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
     private JLabel pipeNameLabel;
     private JPanel panel;
     private JPanel codePanel;
+    private JPanel hotfixPanel;
     private JCheckBox waitIDECheckBox;
     private JCheckBox breakWhenIDEConnectedCheckBox;
 
@@ -56,6 +57,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
     private ButtonGroup winArchGroup;
 
     private EditorEx editorEx;
+    private EditorEx hotfixEx;
 
     public EmmyDebugSettingsPanel(Project project) {
         // type
@@ -94,6 +96,10 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         // editor
         editorEx = createEditorEx(project);
         codePanel.add(editorEx.getComponent(), BorderLayout.CENTER);
+
+        // hotfix
+        hotfixEx = createEditorEx(project);
+        hotfixPanel.add(hotfixEx.getComponent(), BorderLayout.CENTER);
 
         updateCode();
     }
@@ -140,6 +146,8 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         if (SystemInfoRt.isWindows) {
             configuration.setWinArch(x64RadioButton.isSelected() ? EmmyWinArch.X64 : EmmyWinArch.X86);
         }
+
+        configuration.setHotfixList(hotfixEx.getDocument().getText())
     }
 
     protected void setType(EmmyDebugTransportType type) {
