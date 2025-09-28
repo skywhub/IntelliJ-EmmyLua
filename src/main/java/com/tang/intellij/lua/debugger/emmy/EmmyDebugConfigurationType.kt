@@ -135,9 +135,4 @@ class EmmyDebugConfiguration(project: Project, factory: EmmyDebuggerConfiguratio
             winArch = EmmyWinArch.values().find { it.ordinal == i } ?: EmmyWinArch.X64
         }
     }
-
-    fun setHotfixList(content: String)
-    {
-        hotfixList = content
-    }
 }
