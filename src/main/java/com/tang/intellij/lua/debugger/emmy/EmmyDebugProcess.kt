@@ -62,9 +62,6 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
             return
         }
 
-        println("Try send hotfix files: $hotfixList", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-        println("Project base path: $projectBasePath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-
         // 获取项目的 VirtualFile
         val projectDir = LocalFileSystem.getInstance().findFileByPath(projectBasePath)
         
@@ -80,7 +77,6 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
             if (virtualFile != null && virtualFile.isValid) {
                 println("Processing line: $trimmedLine", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
                 if (virtualFile.isDirectory) {
-                    println("The path points to a directory, not a file: ${virtualFile.path}", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
                     continue
                 }
                 println("Send Hotfix: ${virtualFile.path}", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
