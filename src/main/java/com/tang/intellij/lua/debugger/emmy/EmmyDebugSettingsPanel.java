@@ -104,6 +104,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         hotfixEx = createEditorEx(project);
         hotfixPanel.add(hotfixEx.getComponent(), BorderLayout.CENTER);
         hotfixEx.getDocument().addDocumentListener(this);
+        hotfixEx.getComponent().addActionListener(e -> this.fireEditorStateChanged());
 
         updateCode();
     }
@@ -138,7 +139,6 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
 
         String hotfixText = configuration.getHotfixList();
         hotfixEx.getDocument().setText(hotfixText);
-        println("resetEditorFrom: $hotfixText", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT);
     }
 
     @Override
@@ -157,7 +157,6 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
 
         String hotfixText = hotfixEx.getDocument().getText();
         configuration.setHotfixList(hotfixText);
-        println("applyEditorTo: $hotfixText", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT);
     }
 
     protected void setType(EmmyDebugTransportType type) {
