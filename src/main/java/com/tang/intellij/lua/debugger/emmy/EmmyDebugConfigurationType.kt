@@ -113,6 +113,7 @@ class EmmyDebugConfiguration(project: Project, factory: EmmyDebuggerConfiguratio
         JDOMExternalizerUtil.writeField(element, "PORT", port.toString())
         JDOMExternalizerUtil.writeField(element, "PIPE", pipeName)
         JDOMExternalizerUtil.writeField(element, "WIN_ARCH", winArch.ordinal.toString())
+        JDOMExternalizerUtil.writeField(element, "HOTFIX", hotfixList)
     }
 
     override fun readExternal(element: Element) {
@@ -133,6 +134,9 @@ class EmmyDebugConfiguration(project: Project, factory: EmmyDebuggerConfiguratio
         JDOMExternalizerUtil.readField(element, "WIN_ARCH")?.let { value ->
             val i = value.toInt()
             winArch = EmmyWinArch.values().find { it.ordinal == i } ?: EmmyWinArch.X64
+        }
+        JDOMExternalizerUtil.readField(element, "HOTFIX")?.let {
+            hotfixList = it
         }
     }
 }
