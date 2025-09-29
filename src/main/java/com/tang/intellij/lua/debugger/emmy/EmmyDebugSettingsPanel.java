@@ -103,7 +103,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         // hotfix
         hotfixEx = createEditorEx(project);
         hotfixPanel.add(hotfixEx.getComponent(), BorderLayout.CENTER);
-        DocumentListener listener = new DocumentListener() {
+        com.intellij.openapi.editor.event.DocumentListener listener = new com.intellij.openapi.editor.event.DocumentListener() {
             @Override
             public void documentChanged(@NotNull DocumentEvent event) {
                 fireEditorStateChanged();
