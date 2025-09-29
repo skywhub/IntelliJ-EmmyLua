@@ -23,6 +23,9 @@ import java.io.File
 import com.tang.intellij.lua.debugger.LogConsoleType
 import com.intellij.execution.ui.ConsoleViewContentType
 import com.intellij.xdebugger.XDebugSession
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.vfs.VirtualFile
 
 interface IEvalResultHandler {
     fun handleMessage(msg: EvalRsp)
@@ -49,23 +52,43 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
         }
     }
 
-    override fun sendHotfix()
-    {
-        var hotfixList = configuration.hotfixList
+    override fun sendHotfix() {
+        val hotfixList = configuration.hotfixList
         val lines: List<String> = hotfixList.split(Regex("\r\n|\r|\n"))
-        val roots = LuaSourceRootManager.getInstance(session.project).getSourceRoots()
-        var basePath = session.project.basePath ?: session.project.baseDir?.path
-        println("Try send hotfix files:$hotfixList", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-        println("Project base path:$basePath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+        val projectBasePath = session.project.basePath ?: session.project.baseDir?.path
+
+        if (projectBasePath == null) {
+            println("Project base path is null.", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+            return
+        }
+
+        println("Try send hotfix files: $hotfixList", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+        println("Project base path: $projectBasePath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+
+        // 获取项目的 VirtualFile
+        val projectDir = LocalFileSystem.getInstance().findFileByPath(projectBasePath)
+        
+        if (projectDir == null) {
+            println("Cannot find project directory at path: $projectBasePath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+            return
+        }
+
         for (line in lines) {
-                var fullPath = basePath + "/" + line
-                var file = File(fullPath)
-                if (file.exists()) {
-                    println("Send Hotfix:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
-                        transporter?.send(HotfixMessage(line, file.readText()))
-                } else {
-                    println("Cannot found file:$fullPath", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+            val trimmedLine = line.trim()
+            val virtualFile: VirtualFile? = projectDir.findFileByRelativePath(trimmedLine)
+
+            if (virtualFile != null && virtualFile.isValid) {
+                println("Send Hotfix: ${virtualFile.path}", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+                try {
+                     // 获取文件内容
+                    val fileContent = virtualFile.contentsToByteArray()
+                    transporter?.send(HotfixMessage(trimmedLine, String(fileContent)))
+                } catch (e: Exception) {
+                    println("Error reading file ${virtualFile.path}: ${e.message}", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
                 }
+            } else {
+                println("Cannot find file: $trimmedLine", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+            }
         }
     }
 }
