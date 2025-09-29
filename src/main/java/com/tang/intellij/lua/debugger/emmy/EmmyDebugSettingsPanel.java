@@ -62,7 +62,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
     private EditorEx editorEx;
     private EditorEx hotfixEx;
 
-    public EmmyDebugSettingsPanel(Project project) {
+    public EmmyDebugSettingsPanel(Project project, EmmyDebugConfiguration config) {
         // type
         DefaultComboBoxModel<EmmyDebugTransportType> model = new DefaultComboBoxModel<>();
         model.addElement(EmmyDebugTransportType.TCP_CLIENT);
@@ -105,6 +105,8 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         hotfixPanel.add(hotfixEx.getComponent(), BorderLayout.CENTER);
 
         updateCode();
+
+        hotfixEx.getDocument().setText(config.getHotfixList());
     }
 
     private void onChanged() {
@@ -181,6 +183,10 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
 
     private String getHost() {
         return tcpHostInput.getText();
+    }
+
+    private String getHotfixList() {
+        return hotfixEx.getDocument().getText();
     }
 
     private int getPort() {
@@ -268,6 +274,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
             }
         }
         editorEx.getDocument().setText(sb.toString());
+        hotfixEx.getDocument().setText(getHotfixList());
     }
 
     @Override

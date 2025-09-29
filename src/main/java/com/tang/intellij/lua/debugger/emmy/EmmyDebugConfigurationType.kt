@@ -94,7 +94,7 @@ class EmmyDebugConfiguration(project: Project, factory: EmmyDebuggerConfiguratio
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> {
         val group = SettingsEditorGroup<EmmyDebugConfiguration>()
-        group.addEditor("emmy", EmmyDebugSettingsPanel(project))
+        group.addEditor("emmy", EmmyDebugSettingsPanel(project, this))
         return group
     }
 

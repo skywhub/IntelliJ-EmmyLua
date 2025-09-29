@@ -75,7 +75,6 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
             val virtualFile: VirtualFile? = projectDir.findFileByRelativePath(trimmedLine)
 
             if (virtualFile != null && virtualFile.isValid) {
-                println("Processing line: $trimmedLine", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
                 if (virtualFile.isDirectory) {
                     continue
                 }
