@@ -78,6 +78,11 @@ open class EmmyDebugProcess(session: XDebugSession) : EmmyDebugProcessBase(sessi
             val virtualFile: VirtualFile? = projectDir.findFileByRelativePath(trimmedLine)
 
             if (virtualFile != null && virtualFile.isValid) {
+                println("Processing line: $trimmedLine", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+                if (virtualFile.isDirectory) {
+                    println("The path points to a directory, not a file: ${virtualFile.path}", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
+                    continue
+                }
                 println("Send Hotfix: ${virtualFile.path}", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT)
                 try {
                      // 获取文件内容
