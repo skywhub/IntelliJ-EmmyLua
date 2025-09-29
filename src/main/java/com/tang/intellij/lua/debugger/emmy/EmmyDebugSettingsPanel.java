@@ -36,6 +36,9 @@ import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.util.Objects;
 
+import com.tang.intellij.lua.debugger.LogConsoleType;
+import com.intellij.execution.ui.ConsoleViewContentType;
+
 public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguration> implements DocumentListener {
     private JComboBox<EmmyDebugTransportType> typeCombox;
     private JLabel type;
@@ -100,6 +103,7 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         // hotfix
         hotfixEx = createEditorEx(project);
         hotfixPanel.add(hotfixEx.getComponent(), BorderLayout.CENTER);
+        hotfixEx.getDocument().addDocumentListener(this);
 
         updateCode();
     }
@@ -132,7 +136,9 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
             }
         }
 
-        hotfixEx.getDocument().setText(configuration.getHotfixList());
+        String hotfixText = configuration.getHotfixList();
+        hotfixEx.getDocument().setText(hotfixText);
+        println("resetEditorFrom: $hotfixText", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT);
     }
 
     @Override
@@ -149,7 +155,9 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
             configuration.setWinArch(x64RadioButton.isSelected() ? EmmyWinArch.X64 : EmmyWinArch.X86);
         }
 
-        configuration.setHotfixList(hotfixEx.getDocument().getText());
+        String hotfixText = hotfixEx.getDocument().getText();
+        configuration.setHotfixList(hotfixText);
+        println("applyEditorTo: $hotfixText", LogConsoleType.NORMAL, ConsoleViewContentType.SYSTEM_OUTPUT);
     }
 
     protected void setType(EmmyDebugTransportType type) {
