@@ -83,9 +83,9 @@
         <border type="none"/>
         <children/>
       </grid>
-      <component id="6e8e4" class="javax.swing.JCheckBox" binding="hotfixCheckBox">
+      <component id="191a5" class="javax.swing.JLabel">
         <constraints>
-          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Hotfix List"/>

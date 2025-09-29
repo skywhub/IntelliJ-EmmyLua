@@ -61,7 +61,6 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
 
     private EditorEx editorEx;
     private EditorEx hotfixEx;
-    private JCheckBox hotfixCheckBox;
 
     public EmmyDebugSettingsPanel(Project project) {
         // type
@@ -104,18 +103,9 @@ public class EmmyDebugSettingsPanel extends SettingsEditor<EmmyDebugConfiguratio
         // hotfix
         hotfixEx = createEditorEx(project);
         hotfixPanel.add(hotfixEx.getComponent(), BorderLayout.CENTER);
-        hotfixCheckBox.addActionListener(e -> onHotfixCommit());
+        hotfixEx.getDocument().addDocumentListener(this);
 
         updateCode();
-    }
-
-    private void onHotfixCommit() {
-        fireEditorStateChanged();
-        ApplicationManager.getApplication().runWriteAction(this::updateHotfixImpl);
-    }
-
-    private void updateHotfixImpl() {
-        
     }
 
     private void onChanged() {
